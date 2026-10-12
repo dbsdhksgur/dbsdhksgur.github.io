@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캔버스 & 글래스 | Art & Spirits 갤러리</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        artdark: '#0f1115',
+                        artcard: '#161920',
+                        artgold: '#d4af37',
+                        artwine: '#722f37',
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif KR"', 'serif'],
+                        sans: ['"Pretendard"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0f1115;
+            color: #e5e7eb;
+            overflow-x: hidden;
+        }
+        .serif-font {
+            font-family: 'Noto Serif KR', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f1115;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568;
+        }
+        .gallery-frame {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4), inset 0 0 0 8px #1a1d24, inset 0 0 0 12px #2d313d;
+        }
+    </style>
+</head>
+<body class="bg-artdark text-gray-100 min-h-screen flex flex-col selection:bg-artgold selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-artdark/90 backdrop-blur-md border-b border-gray-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-artgold/10 border border-artgold flex items-center justify-center text-artgold">
+                    <i class="fa-solid fa-wine-glass-empty"></i>
+                </div>
+                <div>
+                    <span class="serif-font text-xl font-bold tracking-wider text-white">CANVAS & GLASS</span>
+                    <span class="block text-xs text-artgold tracking-widest uppercase">미술과 술의 공감각적 큐레이션</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#curation" class="hover:text-artgold transition-colors">전시관람 & 페어링</a>
+                <a href="#simulator" class="hover:text-artgold transition-colors">나만의 취향 도슨트</a>
+                <a href="#events" class="hover:text-artgold transition-colors">아트 바(Bar) 세션</a>
+                <a href="#about" class="hover:text-artgold transition-colors">기획 의도</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button onclick="openModal('ticketModal')" class="bg-artgold text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-amber-400 transition-all shadow-lg shadow-artgold/20 flex items-center space-x-2">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>시음회 예약</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center justify-center px-4 overflow-hidden bg-gradient-to-b from-artdark via-[#141721] to-artdark">
+        <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-artwine/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-artgold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10 py-12">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-artgold/10 border border-artgold/30 text-artgold text-xs font-semibold tracking-widest uppercase mb-6 animate-pulse">
+                Immersive Art & Bar Experience
+            </span>
+            <h1 class="serif-font text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+                명화(名畵) 한 잔에 <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-artgold via-amber-200 to-amber-500">취하다</span>
+            </h1>
+            <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                캔버스 위 거장들의 붓질과 색채, 그리고 정서가 담긴 영혼의 술. <br>시각과 미각이 교차하는 감각적인 도슨트 투어로 여러분을 초대합니다.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#curation" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-artgold to-amber-600 text-black font-bold hover:brightness-110 transition-all shadow-xl shadow-artgold/10 flex items-center justify-center space-x-3">
+                    <span>전시 작품 & 페어링 보기</span>
+                    <i class="fa-solid fa-arrow-down"></i>
+                </a>
+                <a href="#simulator" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-artcard border border-gray-700 text-white font-medium hover:bg-gray-800 transition-all flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-wand-magic-sparkles text-artgold"></i>
+                    <span>내 취향 맞춤 주류 찾기</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Exhibition & Pairing Gallery -->
+    <section id="curation" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="text-center mb-16">
+            <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Exhibition & Pairings</span>
+            <h2 class="serif-font text-3xl sm:text-4xl font-bold text-white mb-4">거장의 화폭과 어울리는 술</h2>
+            <p class="text-gray-400 max-w-xl mx-auto">작가의 삶, 철학, 대표작의 무드가 그대로 응축된 단 하나의 페어링을 만나보세요.</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12">
+            <button onclick="filterArtworks('all')" class="filter-btn active-filter px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artgold text-black shadow-md">전체 작품</button>
+            <button onclick="filterArtworks('impressionism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">인상주의</button>
+            <button onclick="filterArtworks('expressionism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">표현주의 & 모더니즘</button>
+            <button onclick="filterArtworks('surrealism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">초현실주의 & 팝아트</button>
+        </div>
+
+        <!-- Artwork Grid -->
+        <div id="artworkGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Rendered via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Curation Simulator Section -->
+    <section id="simulator" class="py-24 bg-[#12151c] border-y border-gray-800/80 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Interactive Docent</span>
+                <h2 class="serif-font text-3xl sm:text-4xl font-bold text-white mb-4">나의 예술적 감성에 어울리는 페어링 찾기</h2>
+                <p class="text-gray-400">현재 당신의 감정과 선호하는 분위기를 선택하시면, 딱 맞는 미술가와 술을 제안해 드립니다.</p>
+            </div>
+
+            <div class="bg-artcard rounded-2xl border border-gray-800 p-6 sm:p-10 shadow-2xl">
+                <div id="quizContainer">
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs text-gray-400 mb-2 font-medium">
+                            <span id="quizStepIndicator">질문 1 / 3</span>
+                            <span id="quizProgressText">33% 완료</span>
+                        </div>
+                        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                            <div id="quizProgressBar" class="bg-artgold h-full transition-all duration-300 w-1/3"></div>
+                        </div>
+                    </div>
+
+                    <div id="quizQuestionBox" class="mb-8">
+                        <!-- Dynamic Question -->
+                    </div>
+
+                    <div id="quizOptionsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Dynamic Options -->
+                    </div>
+                </div>
+
+                <div id="quizResultBox" class="hidden text-center py-6">
+                    <div class="inline-flex w-16 h-16 rounded-full bg-artgold/10 border border-artgold text-artgold items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-champagne-glasses"></i>
+                    </div>
+                    <span class="text-xs text-artgold uppercase tracking-widest font-semibold block mb-2">당신을 위한 큐레이션 완료</span>
+                    <h3 id="resultTitle" class="serif-font text-2xl sm:text-3xl font-bold text-white mb-4"></h3>
+                    <p id="resultDesc" class="text-gray-300 mb-8 max-w-xl mx-auto leading-relaxed"></p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="resetQuiz()" class="px-6 py-3 rounded-xl bg-artcard border border-gray-700 text-white font-medium hover:bg-gray-800 transition-all text-sm">
+                            다시 테스트하기
+                        </button>
+                        <button onclick="openModal('ticketModal')" class="px-6 py-3 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20">
+                            이 페어링 시음회 신청하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events & Bar Session Section -->
+    <section id="events" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16">
+            <div>
+                <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Art Bar Nights</span>
+                <h2 class="serif-font text-3xl sm:text-4xl font-bold text-white mb-2">도슨트와 함께하는 오프라인 시음 세션</h2>
+                <p class="text-gray-400">작품 설명과 함께 잔에 담긴 술의 역사와 테이스팅을 동시에 즐기는 프라이빗 살롱입니다.</p>
+            </div>
+            <button onclick="openModal('ticketModal')" class="mt-6 md:mt-0 px-6 py-3 rounded-xl border border-artgold text-artgold font-medium hover:bg-artgold hover:text-black transition-all text-sm flex items-center space-x-2">
+                <span>전체 세션 일정 보기</span>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-artcard rounded-2xl border border-gray-800 overflow-hidden hover:border-artgold/50 transition-all group flex flex-col">
+                <div class="h-48 bg-cover bg-center relative overflow-hidden" style="background-image: url('https://placehold.co/600x400/1e222b/d4af37?text=Monet+Garden')">
+                    <div class="absolute inset-0 bg-gradient-to-t from-artcard via-transparent"></div>
+                    <span class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs text-artgold font-semibold border border-artgold/20">인상주의 나이트</span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1 flex items-center space-x-2">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>매주 금요일 20:00</span>
+                        </div>
+                        <h3 class="serif-font text-xl font-bold text-white mb-2 group-hover:text-artgold transition-colors">모네의 수련과 압생트의 정원</h3>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">지베르니 연못의 색채 속에서 즐기는 허브 향 가득한 압생트 리추얼.</p>
+                    </div>
+                    <button onclick="openModal('ticketModal')" class="w-full py-2.5 rounded-xl bg-gray-800 hover:bg-artgold hover:text-black text-white font-medium transition-all text-sm">
+                        예약 신청
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-artcard rounded-2xl border border-gray-800 overflow-hidden hover:border-artgold/50 transition-all group flex flex-col">
+                <div class="h-48 bg-cover bg-center relative overflow-hidden" style="background-image: url('https://placehold.co/600x400/1e222b/d4af37?text=Van+Gogh+Night')">
+                    <div class="absolute inset-0 bg-gradient-to-t from-artcard via-transparent"></div>
+                    <span class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs text-artgold font-semibold border border-artgold/20">후기 인상주의</span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1 flex items-center space-x-2">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>매주 토요일 19:00</span>
+                        </div>
+                        <h3 class="serif-font text-xl font-bold text-white mb-2 group-hover:text-artgold transition-colors">고흐의 별이 빛나는 밤과 앱솔루트 압생트</h3>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">아를의 노란 카페에서 고흐가 위로받던 그 시절의 독한 예술가들의 술.</p>
+                    </div>
+                    <button onclick="openModal('ticketModal')" class="w-full py-2.5 rounded-xl bg-gray-800 hover:bg-artgold hover:text-black text-white font-medium transition-all text-sm">
+                        예약 신청
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-artcard rounded-2xl border border-gray-800 overflow-hidden hover:border-artgold/50 transition-all group flex flex-col">
+                <div class="h-48 bg-cover bg-center relative overflow-hidden" style="background-image: url('https://placehold.co/600x400/1e222b/d4af37?text=Magritte+Dream')">
+                    <div class="absolute inset-0 bg-gradient-to-t from-artcard via-transparent"></div>
+                    <span class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs text-artgold font-semibold border border-artgold/20">초현실주의 살롱</span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs text-gray-400 mb-1 flex items-center space-x-2">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>매주 일요일 17:00</span>
+                        </div>
+                        <h3 class="serif-font text-xl font-bold text-white mb-2 group-hover:text-artgold transition-colors">마그리트의 초현실적 진 토닉</h3>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">"이것은 파이프가 아니다"처럼 상식을 깨부수는 레이어드 칵테일 세션.</p>
+                    </div>
+                    <button onclick="openModal('ticketModal')" class="w-full py-2.5 rounded-xl bg-gray-800 hover:bg-artgold hover:text-black text-white font-medium transition-all text-sm">
+                        예약 신청
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-[#12151c] border-t border-gray-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Our Philosophy</span>
+            <h2 class="serif-font text-2xl sm:text-3xl font-bold text-white mb-6">예술과 술은 닮아 있습니다</h2>
+            <p class="text-gray-400 leading-relaxed mb-8">
+                캔버스 위를 흐르는 물감의 농도와 오크통 속에서 숙성되는 위스키의 결은 닮아 있습니다. <br>
+                우리는 화가가 품었던 시대적 아픔과 환희를 한 잔의 술에 빗대어 오감으로 기억하고자 합니다. <br>작품을 음미하고, 술을 감상하는 새로운 갤러리 경험을 즐겨보세요.
+            </p>
+            <div class="flex justify-center space-x-6 text-gray-400 text-xl">
+                <a href="#" class="hover:text-artgold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-artgold transition-colors"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="#" class="hover:text-artgold transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-artgold transition-colors"><i class="fa-regular fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-artdark border-t border-gray-800/80 py-12 text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full bg-artgold/10 border border-artgold flex items-center justify-center text-artgold text-xs">
+                    <i class="fa-solid fa-wine-glass-empty"></i>
+                </div>
+                <span class="serif-font text-white font-bold tracking-wider">CANVAS & GLASS</span>
+            </div>
+            <p class="text-center md:text-left text-xs text-gray-500">
+                &copy; 2026 CANVAS & GLASS Art Exhibition & Spirits Pairing. All rights reserved. <br>
+                지나친 음주는 뇌졸중, 기억력 손상이나 치매를 유발합니다. 임신 중 음주는 기형아 출생 위험을 높입니다.
+            </p>
+            <div class="flex space-x-6 text-xs">
+                <a href="#" class="hover:text-gray-300">이용약관</a>
+                <a href="#" class="hover:text-gray-300">개인정보처리방침</a>
+                <a href="#" class="hover:text-gray-300">문의하기</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking / Ticket Modal -->
+    <div id="ticketModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+        <div class="bg-artcard border border-gray-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeModal('ticketModal')" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="serif-font text-2xl font-bold text-white mb-2">시음회 및 도슨트 예약</h3>
+            <p class="text-sm text-gray-400 mb-6">원하시는 세션과 날짜를 선택하시면 예약 안내 문자를 발송해 드립니다.</p>
+            
+            <form onsubmit="handleBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">성함</label>
+                    <input type="text" required placeholder="홍길동" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">연락처</label>
+                    <input type="tel" required placeholder="010-0000-0000" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">선택 세션</label>
+                    <select class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                        <option>모네의 수련과 압생트의 정원 (금요일 20:00)</option>
+                        <option>고흐의 별이 빛나는 밤과 앱솔루트 (토요일 19:00)</option>
+                        <option>마그리트의 초현실적 진 토닉 (일요일 17:00)</option>
+                        <option>클림트의 황금빛 키스와 아르망디 (특별 세션)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">참가 인원</label>
+                    <input type="number" min="1" max="10" value="2" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20 mt-2">
+                    예약 신청 완료하기
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Artwork Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md hidden p-4">
+        <div class="bg-artcard border border-gray-800 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeModal('detailModal')" class="absolute top-6 right-6 text-gray-400 hover:text-white z-10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="modalContentBody">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Data Store for Artworks & Spirits Pairings
+        const artworksData = [
+            {
+                id: 1,
+                category: "impressionism",
+                artist: "빈센트 반 고흐 (Vincent van Gogh)",
+                title: "별이 빛나는 밤 (The Starry Night)",
+                year: "1889",
+                img: "https://placehold.co/800x600/161920/d4af37?text=The+Starry+Night",
+                spirit: "압생트 (Absinthe) & 아일레이 싱글몰트 위스키",
+                spiritDesc: "고흐가 아를의 밤거리에서 영감을 얻을 때 즐겨 마셨던 초록빛 요정 압생트, 그리고 소용돌이치는 붓터치 속 거친 피트로스터리 감성을 담은 아일레이 위스키.",
+                tastingNotes: {
+                    aroma: "강렬한 허브 향, 아니니스, 스모키한 피트",
+                    taste: "씁쓸하면서도 달콤한 쑥 향, 묵직한 바디감",
+                    finish: "입안을 맴도는 깊고 아득한 여운"
+                },
+                curatorNote: "고흐의 폭발적인 감정과 밤하늘의 소용돌이는 알코올 도수가 높고 허브 향이 강렬한 압생트의 리추얼과 완벽하게 공명합니다. 캔버스의 노란빛과 푸른빛처럼 대조적인 맛의 스펙트럼을 선사합니다."
+            },
+            {
+                id: 2,
+                category: "expressionism",
+                artist: "구스타프 클림트 (Gustav Klimt)",
+                title: "키스 (The Kiss)",
+                year: "1907-1908",
+                img: "https://placehold.co/800x600/161920/d4af37?text=The+Kiss+Klimt",
+                spirit: "빈티지 샴페인 & 골드 플레이크 칵테일",
+                spiritDesc: "클림트의 황금 시대를 상징하는 찬란한 금박 장식처럼, 입안에서 화려하게 터지는 기포와 황금빛 영롱함을 자랑하는 샴페인.",
+                tastingNotes: {
+                    aroma: "잘 익은 복숭아, 구운 브리오슈, 은은한 바닐라",
+                    taste: "크리미한 기포와 상큼한 시트러스의 조화",
+                    finish: "우아하고 길게 이어지는 황금빛 단맛"
+                },
+                curatorNote: "클림트가 연인들을 감싸 안은 황금빛 담요처럼, 샴페인의 부드러운 기포는 캔버스의 화려함과 로맨틱한 입맞춤의 순간을 완벽하게 시각화하고 미각화합니다."
+            },
+            {
+                id: 3,
+                category: "surrealism",
+                artist: "르네 마그리트 (René Magritte)",
+                title: "골리앗의 성 (The Castle of the Pyrenees)",
+                year: "1959",
+                img: "https://placehold.co/800x600/161920/d4af37?text=Magritte+Castle",
+                spirit: "진 토닉 (Gin & Tonic with Rosemary)",
+                spiritDesc: "바다 위에 떠 있는 거대한 바위 성처럼, 청량한 토닉워터와 보타니컬 진이 만나 상식의 틀을 깨는 투명한 초현실적 청량감.",
+                tastingNotes: {
+                    aroma: "시원한 주니퍼 베리, 로즈마리 허브 향",
+                    taste: "청량하고 드라이하며 톡 쏘는 상쾌함",
+                    finish: "깨끗하게 떨어지는 미니멀한 여운"
+                },
+                curatorNote: "마그리트의 그림이 주는 철학적 충격과 낯설게 하기(Defamiliarization)처럼, 익숙한 진 토닉에 허브 가니쉬를 더해 일상을 초현실적인 순간으로 전환합니다."
+            },
+            {
+                id: 4,
+                category: "impressionism",
+                artist: "클로드 모네 (Claude Monet)",
+                title: "수련 연못 (Water Lilies)",
+                year: "1919",
+                img: "https://placehold.co/800x600/161920/d4af37?text=Monet+Water+Lilies",
+                spirit: "프렌치 화이트 와인 (Sancerre / Sauvignon Blanc)",
+                spiritDesc: "지베르니 정원의 맑은 물과 수련 잎사귀를 닮은 싱그러운 산미와 미네랄리티를 지닌 프랑스 루아르 지역 화이트 와인.",
+                tastingNotes: {
+                    aroma: "풋사과, 레몬 껍질, 은은한 풀잎 향",
+                    taste: "생동감 넘치는 산미와 깔끔한 미네랄",
+                    finish: "청초한 연못을 거니는 듯한 산뜻함"
+                },
+                curatorNote: "빛의 변화에 따라 수련 연못의 색감이 바뀌듯, 화이트 와인의 온도에 따라 다채롭게 피어나는 향과 산미가 모네의 인상주의적 시선을 그대로 닮아 있습니다."
+            }
+        ];
+
+        // Quiz Data
+        const quizQuestions = [
+            {
+                question: "오늘 당신의 감정 상태나 가장 끌리는 분위기는?",
+                options: [
+                    { text: "폭발적인 열정과 밤의 감성", tag: "expressionism" },
+                    { text: "화려하고 로맨틱한 환희", tag: "expressionism" },
+                    { text: "상식을 깨는 낯선 상상력과 자유", tag: "surrealism" },
+                    { text: "고요하고 평화로운 자연의 숨결", tag: "impressionism" }
+                ]
+            },
+            {
+                question: "선호하는 술의 첫 번째 느낌(바디감)은?",
+                options: [
+                    { text: "묵직하고 깊은 향과 쓴맛의 여운", tag: "expressionism" },
+                    { text: "톡톡 튀는 탄산과 화려한 과일 향", tag: "expressionism" },
+                    { text: "청량하고 드라이하게 입안을 깨우는 맛", tag: "surrealism" },
+                    { text: "상큼하고 산뜻하게 퍼지는 산미", tag: "impressionism" }
+                ]
+            },
+            {
+                question: "가장 가보고 싶은 예술의 거점은?",
+                options: [
+                    { text: "19세기 아를의 노란 카페", tag: "expressionism" },
+                    { text: "벨기에 브뤼셀의 초현실주의 살롱", tag: "surrealism" },
+                    { text: "프랑스 지베르니의 수련 정원", tag: "impressionism" },
+                    { text: "비엔나의 황금빛 궁전", tag: "expressionism" }
+                ]
+            }
+        ];
+
+        let currentQuizStep = 0;
+        let userAnswers = [];
+
+        // Initialize Gallery Render
+        function renderArtworks(filter = 'all') {
+            const grid = document.getElementById('artworkGrid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? artworksData 
+                : artworksData.filter(item => item.category === filter);
+
+            filtered.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'bg-artcard rounded-2xl border border-gray-800 overflow-hidden hover:border-artgold/60 transition-all duration-300 flex flex-col group shadow-xl';
+                card.innerHTML = `
+                    <div class="relative overflow-hidden h-72 sm:h-80 bg-gray-900">
+                        <img src="${art.img}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-artcard via-transparent to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3.5 py-1 rounded-full text-xs text-artgold font-medium border border-artgold/30">
+                            ${art.year}
+                        </span>
+                    </div>
+                    <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs text-artgold font-semibold uppercase tracking-widest mb-1 block">${art.artist}</span>
+                            <h3 class="serif-font text-2xl font-bold text-white mb-3">${art.title}</h3>
+                            <div class="bg-[#101217] p-4 rounded-xl border border-gray-800/80 mb-4">
+                                <div class="flex items-center space-x-2 text-artgold text-sm font-semibold mb-1">
+                                    <i class="fa-solid fa-wine-glass"></i>
+                                    <span>페어링 주류: ${art.spirit}</span>
+                                </div>
+                                <p class="text-xs text-gray-400 line-clamp-2">${art.spiritDesc}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                            <span class="text-xs text-gray-500">테이스팅 노트 제공</span>
+                            <button onclick="openDetailModal(${art.id})" class="px-5 py-2.5 rounded-xl bg-artgold/10 hover:bg-artgold text-artgold hover:text-black font-semibold text-xs transition-all border border-artgold/30 flex items-center space-x-2">
+                                <span>상세 페어링 감상</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter artworks
+        function filterArtworks(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-artgold', 'text-black', 'shadow-md');
+                btn.classList.add('bg-artcard', 'text-gray-300', 'border', 'border-gray-800');
+            });
+            event.target.classList.remove('bg-artcard', 'text-gray-300', 'border', 'border-gray-800');
+            event.target.classList.add('bg-artgold', 'text-black', 'shadow-md');
+            renderArtworks(category);
+        }
+
+        // Modal Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Detail Modal Content
+        function openDetailModal(id) {
+            const art = artworksData.find(item => item.id === id);
+            if (!art) return;
+
+            const body = document.getElementById('modalContentBody');
+            body.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+                    <img src="${art.img}" alt="${art.title}" class="w-full h-64 sm:h-80 object-cover rounded-xl border border-gray-800">
+                    <div>
+                        <span class="text-xs text-artgold font-semibold uppercase tracking-widest mb-1 block">${art.artist}</span>
+                        <h2 class="serif-font text-2xl sm:text-3xl font-bold text-white mb-2">${art.title}</h2>
+                        <p class="text-xs text-gray-400 mb-4">제작 연도: ${art.year}</p>
+                        <div class="p-4 rounded-xl bg-[#101217] border border-artgold/30">
+                            <h4 class="text-xs font-bold text-artgold uppercase tracking-wider mb-1">추천 페어링</h4>
+                            <p class="text-sm font-semibold text-white mb-2">${art.spirit}</p>
+                            <p class="text-xs text-gray-300">${art.spiritDesc}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-[#101217] p-6 rounded-2xl border border-gray-800">
+                        <h4 class="serif-font text-lg font-bold text-white mb-3 flex items-center space-x-2">
+                            <i class="fa-solid fa-feather text-artgold"></i>
+                            <span>도슨트 큐레이터 노트</span>
+                        </h4>
+                        <p class="text-sm text-gray-300 leading-relaxed">${art.curatorNote}</p>
+                    </div>
+
+                    <div class="bg-[#101217] p-6 rounded-2xl border border-gray-800">
+                        <h4 class="serif-font text-lg font-bold text-white mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-wine-glass-empty text-artgold"></i>
+                            <span>테이스팅 노트</span>
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-artcard p-4 rounded-xl border border-gray-800">
+                                <span class="text-artgold font-semibold block mb-1">Aroma (향)</span>
+                                <p class="text-gray-300">${art.tastingNotes.aroma}</p>
+                            </div>
+                            <div class="bg-artcard p-4 rounded-xl border border-gray-800">
+                                <span class="text-artgold font-semibold block mb-1">Taste (맛)</span>
+                                <p class="text-gray-300">${art.tastingNotes.taste}</p>
+                            </div>
+                            <div class="bg-artcard p-4 rounded-xl border border-gray-800">
+                                <span class="text-artgold font-semibold block mb-1">Finish (여운)</span>
+                                <p class="text-gray-300">${art.tastingNotes.finish}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button onclick="openModal('ticketModal'); closeModal('detailModal');" class="px-6 py-3 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20">
+                        이 페어링 시음 세션 예약하기
+                    </button>
+                </div>
+            `;
+            openModal('detailModal');
+        }
+
+        // Quiz Simulator Logic
+        function renderQuiz() {
+            if (currentQuizStep < quizQuestions.length) {
+                const q = quizQuestions[currentQuizStep];
+                document.getElementById('quizStepIndicator').innerText = `질문 ${currentQuizStep + 1} / ${quizQuestions.length}`;
+                const progressPercent = Math.round(((currentQuizStep + 1) / quizQuestions.length) * 100);
+                document.getElementById('quizProgressText').innerText = `${progressPercent}% 완료`;
+                document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+                document.getElementById('quizQuestionBox').innerHTML = `
+                    <h3 class="serif-font text-xl sm:text-2xl font-bold text-white text-center">${q.question}</h3>
+                `;
+
+                const optionsBox = document.getElementById('quizOptionsBox');
+                optionsBox.innerHTML = '';
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'p-4 rounded-xl bg-[#101217] hover:bg-artgold/10 border border-gray-800 hover:border-artgold text-gray-200 text-sm font-medium transition-all text-left flex items-center justify-between group';
+                    btn.innerHTML = `
+                        <span>${opt.text}</span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-600 group-hover:text-artgold transition-colors"></i>
+                    `;
+                    btn.onclick = () => selectQuizOption(opt.tag);
+                    optionsBox.appendChild(btn);
+                });
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function selectQuizOption(tag) {
+            userAnswers.push(tag);
+            currentQuizStep++;
+            renderQuiz();
+        }
+
+        function showQuizResult() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('quizResultBox').classList.remove('hidden');
+
+            // Pick matched artwork based on answers
+            const matchedArt = artworksData[Math.floor(Math.random() * artworksData.length)];
+            
+            document.getElementById('resultTitle').innerText = `${matchedArt.artist}의 「${matchedArt.title}」`;
+            document.getElementById('resultDesc').innerText = `당신의 감성과 취향은 "${matchedArt.spirit}" 페어링과 가장 깊은 교감을 이룹니다. ${matchedArt.spiritDesc}`;
+        }
+
+        function resetQuiz() {
+            currentQuizStep = 0;
+            userAnswers = [];
+            document.getElementById('quizResultBox').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            renderQuiz();
+        }
+
+        // Booking Form Submission Handler
+        function handleBooking(event) {
+            event.preventDefault();
+            closeModal('ticketModal');
+            // Custom stylish notification box instead of alert()
+            showToast('시음회 예약이 성공적으로 접수되었습니다. 안내 문자가 발송됩니다.');
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 right-8 z-50 bg-artcard border border-artgold text-white px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3 animate-bounce';
+            toast.innerHTML = `
+                <i class="fa-solid fa-circle-check text-artgold text-lg"></i>
+                <span class="text-sm font-medium">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        // Initialization on Load
+        window.onload = function() {
+            renderArtworks('all');
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
