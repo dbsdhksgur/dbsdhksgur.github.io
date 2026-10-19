@@ -1,0 +1,17 @@
+{
+  "name": "CANVAS & GLASS — 명화와 술의 페어링 아트 바",
+  "short_name": "CANVAS & GLASS",
+  "description": "거장의 명화에 어울리는 술을 큐레이션하는 공감각 아트 바. 도슨트와 함께하는 오프라인 시음회를 예약하세요.",
+  "lang": "ko",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
