@@ -1,0 +1,12 @@
+[build]
+  # 정적 HTML 사이트 — 별도 빌드 단계 없음. 사이트 루트를 그대로 발행한다.
+  publish = "."
+
+[functions]
+  # 서버리스 함수 위치. Supabase secret 키는 이 함수 안에서만 사용된다.
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[build.environment]
+  # supabase-js 최신 버전은 Node 22+ 를 요구한다(20은 2.110.0에서 지원 종료).
+  NODE_VERSION = "22"

@@ -200,6 +200,7 @@
                 <a href="#events" class="hover:text-artgold transition-colors">아트 바(Bar) 세션</a>
                 <a href="#about" class="hover:text-artgold transition-colors">기획 의도</a>
                 <a href="#faq" class="hover:text-artgold transition-colors">자주 묻는 질문</a>
+                <a href="#guestbook" class="hover:text-artgold transition-colors">방명록</a>
             </nav>
             <div class="flex items-center space-x-4">
                 <button onclick="openModal('ticketModal')" class="bg-artgold text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-amber-400 transition-all shadow-lg shadow-artgold/20 flex items-center space-x-2">
@@ -479,6 +480,37 @@
         </div>
     </section>
 
+    <!-- Guestbook Section -->
+    <section id="guestbook" class="py-24 bg-[#12151c] border-t border-gray-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center mb-12">
+                <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Guestbook</span>
+                <h2 class="serif-font text-3xl sm:text-4xl font-bold text-white mb-4">방명록</h2>
+                <p class="text-gray-400 max-w-xl mx-auto">명화와 술에 대한 감상, 다녀가신 흔적을 남겨 주세요.</p>
+            </div>
+
+            <!-- 방명록 작성 폼 -->
+            <form onsubmit="handleGuestbook(event)" class="bg-artcard rounded-2xl border border-gray-800 p-6 sm:p-8 shadow-xl mb-10 space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">닉네임</label>
+                    <input name="nickname" type="text" required maxlength="30" placeholder="예술애호가" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">메시지</label>
+                    <textarea name="message" required maxlength="500" rows="3" placeholder="오늘의 감상을 남겨 주세요." class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold resize-none"></textarea>
+                </div>
+                <button type="submit" id="guestbookSubmitBtn" class="w-full py-3.5 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20 disabled:opacity-60 disabled:cursor-not-allowed">
+                    방명록 남기기
+                </button>
+            </form>
+
+            <!-- 방명록 목록 -->
+            <div id="guestbookList" class="space-y-4">
+                <p class="text-center text-gray-500 text-sm">방명록을 불러오는 중...</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-artdark border-t border-gray-800/80 py-12 text-sm text-gray-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -512,15 +544,15 @@
             <form onsubmit="handleBooking(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-gray-300 mb-1">성함</label>
-                    <input type="text" required placeholder="홍길동" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                    <input name="name" type="text" required maxlength="50" placeholder="홍길동" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-300 mb-1">연락처</label>
-                    <input type="tel" required placeholder="010-0000-0000" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                    <input name="phone" type="tel" required maxlength="30" placeholder="010-0000-0000" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-300 mb-1">선택 세션</label>
-                    <select class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                    <select name="session" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                         <option>모네의 수련과 압생트의 정원 (금요일 20:00)</option>
                         <option>고흐의 별이 빛나는 밤과 앱솔루트 (토요일 19:00)</option>
                         <option>마그리트의 초현실적 진 토닉 (일요일 17:00)</option>
@@ -529,9 +561,9 @@
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-300 mb-1">참가 인원</label>
-                    <input type="number" min="1" max="10" value="2" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                    <input name="party_size" type="number" min="1" max="10" value="2" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20 mt-2">
+                <button type="submit" id="bookingSubmitBtn" class="w-full py-3.5 rounded-xl bg-artgold text-black font-bold hover:bg-amber-400 transition-all text-sm shadow-lg shadow-artgold/20 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
                     예약 신청 완료하기
                 </button>
             </form>
@@ -837,20 +869,132 @@
             renderQuiz();
         }
 
-        // Booking Form Submission Handler
-        function handleBooking(event) {
+        // Booking Form Submission Handler — Netlify Function 경유로 Supabase 저장
+        async function handleBooking(event) {
             event.preventDefault();
-            closeModal('ticketModal');
-            // Custom stylish notification box instead of alert()
-            showToast('시음회 예약이 성공적으로 접수되었습니다. 안내 문자가 발송됩니다.');
+            const form = event.target;
+            const btn = document.getElementById('bookingSubmitBtn');
+            const payload = {
+                name: form.name.value,
+                phone: form.phone.value,
+                session: form.session.value,
+                party_size: form.party_size.value,
+            };
+
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = '접수 중...';
+
+            try {
+                const res = await fetch('/.netlify/functions/reservations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || '예약 처리에 실패했습니다.');
+
+                closeModal('ticketModal');
+                form.reset();
+                showToast('시음회 예약이 성공적으로 접수되었습니다.');
+            } catch (err) {
+                showToast(err.message || '네트워크 오류가 발생했습니다.', true);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
         }
 
-        function showToast(message) {
+        // ===== Guestbook (Netlify Function + Supabase) =====
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatDate(iso) {
+            try {
+                return new Date(iso).toLocaleString('ko-KR', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit',
+                });
+            } catch { return ''; }
+        }
+
+        function renderGuestbook(entries) {
+            const list = document.getElementById('guestbookList');
+            if (!entries || entries.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-500 text-sm">아직 남겨진 방명록이 없습니다. 첫 흔적을 남겨 보세요.</p>';
+                return;
+            }
+            list.innerHTML = entries.map(e => `
+                <div class="bg-artcard rounded-2xl border border-gray-800 p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="serif-font font-bold text-artgold text-sm">${escapeHtml(e.nickname)}</span>
+                        <span class="text-xs text-gray-500">${formatDate(e.created_at)}</span>
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">${escapeHtml(e.message)}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadGuestbook() {
+            const list = document.getElementById('guestbookList');
+            try {
+                const res = await fetch('/.netlify/functions/guestbook');
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || '불러오기 실패');
+                renderGuestbook(data.entries);
+            } catch {
+                list.innerHTML = '<p class="text-center text-gray-500 text-sm">방명록을 불러오지 못했습니다. (로컬 환경에서는 netlify dev 로 실행하세요.)</p>';
+            }
+        }
+
+        async function handleGuestbook(event) {
+            event.preventDefault();
+            const form = event.target;
+            const btn = document.getElementById('guestbookSubmitBtn');
+            const payload = {
+                nickname: form.nickname.value,
+                message: form.message.value,
+            };
+
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = '등록 중...';
+
+            try {
+                const res = await fetch('/.netlify/functions/guestbook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || '등록에 실패했습니다.');
+
+                form.reset();
+                showToast('방명록이 등록되었습니다. 감사합니다.');
+                loadGuestbook();
+            } catch (err) {
+                showToast(err.message || '네트워크 오류가 발생했습니다.', true);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        }
+
+        function showToast(message, isError = false) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-8 right-8 z-50 bg-artcard border border-artgold text-white px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3 animate-bounce';
+            const borderColor = isError ? 'border-red-500' : 'border-artgold';
+            const iconColor = isError ? 'text-red-500' : 'text-artgold';
+            const icon = isError ? 'fa-circle-exclamation' : 'fa-circle-check';
+            toast.className = `fixed bottom-8 right-8 z-50 bg-artcard border ${borderColor} text-white px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3`;
             toast.innerHTML = `
-                <i class="fa-solid fa-circle-check text-artgold text-lg"></i>
-                <span class="text-sm font-medium">${message}</span>
+                <i class="fa-solid ${icon} ${iconColor} text-lg"></i>
+                <span class="text-sm font-medium">${escapeHtml(message)}</span>
             `;
             document.body.appendChild(toast);
             setTimeout(() => {
@@ -862,6 +1006,7 @@
         window.onload = function() {
             renderArtworks('all');
             renderQuiz();
+            loadGuestbook();
         };
     </script>
 </body>

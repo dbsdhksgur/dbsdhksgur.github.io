@@ -1,0 +1,25 @@
+{
+  "name": "canvas-and-glass",
+  "version": "1.0.0",
+  "description": "CANVAS & GLASS - 명화와 술의 페어링 아트 바 (Netlify Functions + Supabase)",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "sb:login": "supabase login",
+    "sb:link": "supabase link",
+    "sb:db:push": "supabase db push",
+    "sb:db:diff": "supabase db diff",
+    "sb:migration:new": "supabase migration new",
+    "sb:migration:list": "supabase migration list",
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "supabase": "^2.122.0"
+  }
+}
