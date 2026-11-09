@@ -227,6 +227,7 @@
                 <a href="#curation" class="hover:text-artgold transition-colors">전시관람 & 페어링</a>
                 <a href="#simulator" class="hover:text-artgold transition-colors">나만의 취향 도슨트</a>
                 <a href="#events" class="hover:text-artgold transition-colors">아트 바(Bar) 세션</a>
+                <a href="#spirits" class="hover:text-artgold transition-colors">술 이야기</a>
                 <a href="#about" class="hover:text-artgold transition-colors">기획 의도</a>
                 <a href="#faq" class="hover:text-artgold transition-colors">자주 묻는 질문</a>
                 <a href="#guestbook" class="hover:text-artgold transition-colors">방명록</a>
@@ -449,6 +450,43 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Spirits Guide Section -->
+    <section id="spirits" class="py-24 bg-artdark border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center mb-16">
+                <span class="text-artgold text-xs font-semibold tracking-widest uppercase mb-2 block">Spirits Guide</span>
+                <h2 class="serif-font text-3xl sm:text-4xl font-bold text-white mb-4">한 잔에 담긴 술 이야기</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">페어링에 사용되는 다양한 술의 종류와 그 매력을 소개합니다. 각 술이 지닌 역사와 풍미를 알고 마시면, 명화와의 교감이 한층 깊어집니다.</p>
+            </div>
+
+            <div id="spiritsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Rendered via JavaScript -->
+            </div>
+
+            <!-- SEO/GEO fallback for crawlers -->
+            <noscript>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+                    <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                        <h3 class="serif-font text-xl font-bold text-white mb-2">압생트 (Absinthe)</h3>
+                        <p class="text-gray-300 text-sm">향쑥·아니스로 만든 고도수 증류주. '초록 요정'이라 불리며 19세기 예술가들이 사랑했습니다.</p>
+                    </article>
+                    <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                        <h3 class="serif-font text-xl font-bold text-white mb-2">싱글몰트 위스키 (Single Malt Whisky)</h3>
+                        <p class="text-gray-300 text-sm">단일 증류소의 맥아로 만든 위스키. 산지에 따라 스모키·과일·바닐라 등 개성이 뚜렷합니다.</p>
+                    </article>
+                    <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                        <h3 class="serif-font text-xl font-bold text-white mb-2">샴페인 (Champagne)</h3>
+                        <p class="text-gray-300 text-sm">프랑스 샹파뉴의 스파클링 와인. 섬세한 기포와 구운 빵 향이 축하의 순간을 빛냅니다.</p>
+                    </article>
+                    <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                        <h3 class="serif-font text-xl font-bold text-white mb-2">진 (Gin)</h3>
+                        <p class="text-gray-300 text-sm">주니퍼 베리와 보타니컬로 향을 낸 증류주. 토닉과 만나 청량한 진 토닉이 됩니다.</p>
+                    </article>
+                </div>
+            </noscript>
         </div>
     </section>
 
@@ -800,6 +838,64 @@
             }
         ];
 
+        // Spirits Guide Data — 다양한 술의 종류와 특징 소개
+        const spiritsData = [
+            {
+                name: "압생트",
+                en: "Absinthe",
+                icon: "fa-martini-glass-citrus",
+                abv: "45–74%",
+                tag: "허브 증류주",
+                desc: "향쑥(웜우드)·아니스·회향 등 허브를 침출해 만든 고도수 증류주. 영롱한 초록빛 때문에 '초록 요정(La Fée Verte)'이라 불리며, 19세기 파리 예술가들의 상징이었습니다. 물을 부으면 뿌옇게 변하는 '루슈(louche)' 현상이 매력입니다.",
+                notes: "강렬한 허브 향 · 쌉쌀달콤 · 묵직한 여운"
+            },
+            {
+                name: "싱글몰트 위스키",
+                en: "Single Malt Whisky",
+                icon: "fa-whiskey-glass",
+                abv: "40–46%",
+                tag: "몰트 증류주",
+                desc: "단일 증류소에서 맥아(몰트)만으로 만든 위스키. 오크통 숙성으로 깊은 색과 풍미를 얻습니다. 스코틀랜드 아일레이는 피트(이탄) 훈연의 스모키함이, 스페이사이드는 꿀·과일 향이 두드러지는 등 산지별 개성이 뚜렷합니다.",
+                notes: "스모키 피트 · 바닐라 · 말린 과일"
+            },
+            {
+                name: "샴페인",
+                en: "Champagne",
+                icon: "fa-champagne-glasses",
+                abv: "12%",
+                tag: "스파클링 와인",
+                desc: "프랑스 샹파뉴 지방에서 전통 방식으로 병 내 2차 발효를 거친 스파클링 와인만을 부르는 이름입니다. 섬세하고 지속적인 기포, 구운 브리오슈·효모 향이 특징이며, 축하의 자리를 빛내는 대표적인 술입니다.",
+                notes: "복숭아 · 구운 빵 · 크리미한 기포"
+            },
+            {
+                name: "진",
+                en: "Gin",
+                icon: "fa-wine-bottle",
+                abv: "37–50%",
+                tag: "보타니컬 증류주",
+                desc: "주니퍼 베리를 주 향으로 여러 보타니컬(허브·향신료·과일 껍질)을 더해 증류한 술. 17세기 네덜란드에서 약용으로 시작해 영국에서 대중화되었고, 토닉워터와 만나 세계에서 가장 사랑받는 하이볼 '진 토닉'이 되었습니다.",
+                notes: "주니퍼 · 시트러스 · 허브 가니쉬"
+            },
+            {
+                name: "화이트 와인",
+                en: "White Wine",
+                icon: "fa-wine-glass",
+                abv: "11–14%",
+                tag: "청포도 와인",
+                desc: "청포도를 껍질과 분리해 발효한 와인. 소비뇽 블랑은 풋풋한 풀잎·시트러스 향과 쨍한 산미가, 샤르도네는 둥글고 버터리한 풍미가 매력입니다. 차갑게 식혀 마실 때 향이 가장 생동감 있게 피어오릅니다.",
+                notes: "풋사과 · 레몬 · 미네랄"
+            },
+            {
+                name: "베르무트 & 아페리티프",
+                en: "Vermouth & Aperitif",
+                icon: "fa-glass-water",
+                abv: "15–18%",
+                tag: "식전주",
+                desc: "와인에 허브·향신료를 더해 향을 입힌 가향 와인으로, 식욕을 돋우는 식전주(아페리티프)로 즐깁니다. 마티니·네그로니 같은 클래식 칵테일의 핵심 재료이며, 쌉쌀하면서도 은은한 단맛이 입맛을 깨웁니다.",
+                notes: "허브 · 쌉쌀한 단맛 · 시트러스 피니시"
+            }
+        ];
+
         // Quiz Data
         const quizQuestions = [
             {
@@ -833,6 +929,29 @@
 
         let currentQuizStep = 0;
         let userAnswers = [];
+
+        // Spirits Guide Render
+        function renderSpirits() {
+            const grid = document.getElementById('spiritsGrid');
+            if (!grid) return;
+            grid.innerHTML = spiritsData.map(s => `
+                <div class="bg-artcard rounded-2xl border border-gray-800 p-6 hover:border-artgold/50 transition-all flex flex-col">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-artgold/10 border border-artgold/40 flex items-center justify-center text-artgold text-xl">
+                            <i class="fa-solid ${s.icon}"></i>
+                        </div>
+                        <span class="text-[11px] text-gray-300 bg-[#101217] border border-gray-800 rounded-full px-3 py-1">${s.tag} · ABV ${s.abv}</span>
+                    </div>
+                    <h3 class="serif-font text-xl font-bold text-white">${s.name}</h3>
+                    <span class="text-xs text-artgold uppercase tracking-widest mb-3 block">${s.en}</span>
+                    <p class="text-sm text-gray-400 leading-relaxed flex-1">${s.desc}</p>
+                    <div class="mt-4 pt-4 border-t border-gray-800 flex items-center gap-2 text-xs text-gray-300">
+                        <i class="fa-solid fa-wine-glass text-artgold"></i>
+                        <span>${s.notes}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         // Initialize Gallery Render
         function renderArtworks(filter = 'all') {
@@ -1278,6 +1397,7 @@
         // Initialization on Load
         window.onload = function() {
             renderArtworks('all');
+            renderSpirits();
             renderQuiz();
             loadGuestbook();
         };
