@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- ===== GitHub Pages → Netlify 리다이렉트 =====
+         방명록·예약 등 저장 기능은 Netlify Functions가 있는 Netlify 사이트에서만
+         동작한다. GitHub Pages(dbsdhksgur.github.io)로 들어온 방문자는 기능이 완전한
+         Netlify 사이트로 자동 이동시킨다. Netlify 도메인에서는 아무 일도 하지 않는다.
+         (GitHub Pages는 서버 리다이렉트를 지원하지 않아 클라이언트 JS로 처리) -->
+    <script>
+        (function () {
+            var CANONICAL_HOST = "fanciful-nougat-765818.netlify.app"; // 기능이 완전한 정식 사이트
+            var host = window.location.hostname;
+            // GitHub Pages 호스트에서만 리다이렉트 (netlify.app, localhost 등은 제외)
+            if (host === "dbsdhksgur.github.io") {
+                var target =
+                    "https://" + CANONICAL_HOST +
+                    window.location.pathname +
+                    window.location.search +
+                    window.location.hash;
+                window.location.replace(target); // 뒤로가기 히스토리에 남기지 않음
+            }
+        })();
+    </script>
     <!-- ===== Primary SEO Meta ===== -->
     <title>캔버스 & 글래스 | 명화와 술의 페어링 아트 바 · 시음회 예약</title>
     <meta name="description" content="고흐·클림트·모네·마그리트 등 거장의 명화에 어울리는 압생트, 샴페인, 와인, 진 토닉을 큐레이션하는 공감각 아트 바. 도슨트와 함께하는 오프라인 시음회를 예약하세요.">
@@ -181,6 +201,15 @@
     </style>
 </head>
 <body class="bg-artdark text-gray-100 min-h-screen flex flex-col selection:bg-artgold selection:text-black">
+
+    <!-- JS 비활성 환경 폴백 안내 (GitHub Pages 방문자용, 정식 사이트로 이동 링크) -->
+    <noscript>
+        <div style="background:#d4af37;color:#000;text-align:center;padding:10px;font-size:14px;">
+            전체 기능(방명록·예약)은
+            <a href="https://fanciful-nougat-765818.netlify.app/" style="color:#000;font-weight:bold;text-decoration:underline;">정식 사이트</a>
+            에서 이용하실 수 있습니다.
+        </div>
+    </noscript>
 
     <!-- Header / Navbar -->
     <header class="sticky top-0 z-50 bg-artdark/90 backdrop-blur-md border-b border-gray-800 transition-all duration-300">
