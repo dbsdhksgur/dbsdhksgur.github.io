@@ -682,7 +682,16 @@
                     </p>
                 </div>
 
-                <button onclick="resetBookingForm()" class="w-full mt-5 py-3 rounded-xl bg-artcard border border-gray-700 text-white font-medium hover:bg-gray-800 transition-all text-sm">
+                <!-- 취소 / 수정 버튼 -->
+                <div class="grid grid-cols-2 gap-3 mt-5">
+                    <button id="bookingCancelBtn" onclick="cancelBooking()" class="py-3 rounded-xl bg-artcard border border-red-500/60 text-red-400 font-semibold hover:bg-red-500 hover:text-white transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-xmark"></i><span>예약 취소</span>
+                    </button>
+                    <button id="bookingEditBtn" onclick="editBooking()" class="py-3 rounded-xl bg-artcard border border-artgold/60 text-artgold font-semibold hover:bg-artgold hover:text-black transition-all text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen"></i><span>예약 수정</span>
+                    </button>
+                </div>
+                <button onclick="resetBookingForm()" class="w-full mt-3 py-2.5 rounded-xl text-gray-400 hover:text-white font-medium transition-all text-xs">
                     새 예약하기
                 </button>
             </div>
@@ -1019,34 +1028,46 @@
         }
 
         // Booking Form Submission Handler — Netlify Function 경유로 Supabase 저장 + 모의 문자 발송
+        // 현재 세션에서 다루는 예약 상태
+        //  - id:       서버가 부여한 예약 번호 (취소·수정 대상)
+        //  - editing:  true면 폼 제출이 '수정(PUT)', false면 '신규(POST)'
+        //  - phone:    결과 화면 표시용(마스킹)
+        let currentReservation = { id: null, editing: false, phone: '' };
+
         async function handleBooking(event) {
             event.preventDefault();
             const form = event.target;
             const btn = document.getElementById('bookingSubmitBtn');
             const phone = form.phone.value;
+            const isEditing = currentReservation.editing && currentReservation.id;
+
             const payload = {
                 name: form.name.value,
                 phone: phone,
                 session: form.session.value,
                 party_size: form.party_size.value,
             };
+            if (isEditing) payload.id = currentReservation.id;
 
             btn.disabled = true;
             const originalText = btn.innerText;
-            btn.innerText = '접수 중...';
+            btn.innerText = isEditing ? '수정 중...' : '접수 중...';
 
             try {
                 const res = await fetch('/.netlify/functions/reservations', {
-                    method: 'POST',
+                    method: isEditing ? 'PUT' : 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
                 const data = await res.json().catch(() => ({}));
                 if (!res.ok) throw new Error(data.error || '예약 처리에 실패했습니다.');
 
-                // 예약 성사 + 모의 문자 발송 기록을 모달 안에 표시
                 showBookingResult(data, phone);
-                showToast('예약이 성사되었습니다. 안내 문자(모의)가 발송되었습니다.');
+                showToast(
+                    isEditing
+                        ? '예약이 수정되었습니다. 변경된 안내 문자(모의)가 발송되었습니다.'
+                        : '예약이 성사되었습니다. 안내 문자(모의)가 발송되었습니다.'
+                );
             } catch (err) {
                 showToast(err.message || '네트워크 오류가 발생했습니다.', true);
             } finally {
@@ -1065,6 +1086,16 @@
             const r = data.reservation || {};
             const sms = data.sms || {};
 
+            // 이후 취소·수정을 위해 현재 예약 정보 보관
+            currentReservation = {
+                id: r.id || null,
+                editing: false,
+                phone: phone,
+                name: r.name || '',
+                session: r.session || '',
+                party_size: r.party_size || 1,
+            };
+
             document.getElementById('bookingResultSummary').innerText =
                 `${r.name || ''}님 · ${r.session || ''} · ${r.party_size || ''}명 (예약번호 #${r.id || '-'})`;
             document.getElementById('bookingSmsTo').innerText = `수신: ${maskPhone(phone)}`;
@@ -1074,12 +1105,65 @@
             document.getElementById('bookingResult').classList.remove('hidden');
         }
 
-        // 폼 상태로 되돌리기
+        // 예약 취소 (DELETE)
+        async function cancelBooking() {
+            if (!currentReservation.id) return;
+            if (!confirm('정말 예약을 취소하시겠습니까?')) return;
+
+            const cancelBtn = document.getElementById('bookingCancelBtn');
+            const editBtn = document.getElementById('bookingEditBtn');
+            cancelBtn.disabled = true;
+            editBtn.disabled = true;
+
+            try {
+                const res = await fetch('/.netlify/functions/reservations', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: currentReservation.id }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || '예약 취소에 실패했습니다.');
+
+                showToast('예약이 취소되었습니다.');
+                closeModal('ticketModal'); // closeModal이 폼 상태로 초기화
+            } catch (err) {
+                showToast(err.message || '네트워크 오류가 발생했습니다.', true);
+                cancelBtn.disabled = false;
+                editBtn.disabled = false;
+            }
+        }
+
+        // 예약 수정 — 기존 값으로 폼을 채우고 수정 모드로 전환
+        function editBooking() {
+            if (!currentReservation.id) return;
+            const form = document.getElementById('bookingForm');
+
+            form.name.value = currentReservation.name || '';
+            form.phone.value = currentReservation.phone || '';
+            form.session.value = currentReservation.session || '';
+            form.party_size.value = currentReservation.party_size || 1;
+
+            currentReservation.editing = true;
+            document.getElementById('bookingSubmitBtn').innerText = '예약 수정 완료하기';
+
+            document.getElementById('bookingResult').classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+
+        // 폼 상태로 되돌리기 (신규 예약 모드로 초기화)
         function resetBookingForm() {
             const form = document.getElementById('bookingForm');
             form.reset();
             form.classList.remove('hidden');
             document.getElementById('bookingResult').classList.add('hidden');
+            document.getElementById('bookingSubmitBtn').innerText = '예약 신청 완료하기';
+
+            const cancelBtn = document.getElementById('bookingCancelBtn');
+            const editBtn = document.getElementById('bookingEditBtn');
+            if (cancelBtn) cancelBtn.disabled = false;
+            if (editBtn) editBtn.disabled = false;
+
+            currentReservation = { id: null, editing: false, phone: '' };
         }
 
         // ===== Guestbook (Netlify Function + Supabase) =====
