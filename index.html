@@ -998,39 +998,6 @@
             `).join('');
         }
 
-        // 표기용 라벨 추출.
-        //  - 괄호 안에 라틴(영문)이 있으면 그 영문을 사용
-        //    "빈센트 반 고흐 (Vincent van Gogh)" -> "Vincent van Gogh"
-        //    "점화 연작 (點畵, Dot Paintings)" -> "Dot Paintings"
-        //  - 영문이 없으면 괄호 앞 한글 표기를 사용 (한국 작품 등)
-        //    "겸재 정선 (謙齋 鄭敾)" -> "겸재 정선"
-        function displayPart(str) {
-            const s = String(str).trim();
-            const paren = s.match(/\(([^)]+)\)/);
-            if (paren) {
-                // 괄호 안에서 라틴 문자를 포함한 조각을 찾는다 (쉼표로 구분된 경우 포함)
-                const inner = paren[1];
-                const latin = inner.split(/[,，]/).map(x => x.trim()).find(x => /[A-Za-z]/.test(x));
-                if (latin) return latin;
-            }
-            // 영문이 없으면 괄호 앞 한글 표기
-            return s.replace(/\s*\(.*\)\s*/, '').trim();
-        }
-
-        // 괄호 밖 한글(기본) 표기만 추출.  "겸재 정선 (謙齋 鄭敾)" -> "겸재 정선"
-        function basePart(str) {
-            return String(str).replace(/\s*\(.*\)\s*/, '').trim();
-        }
-
-        // 금색 라벨용 "작가, 작품" 표기 생성.
-        //  작가명에 영문이 있으면(서양 작가) 작가·작품 모두 영문으로,
-        //  영문이 없으면(한국 작가) 작가·작품 모두 한글로 통일한다.
-        function artistWorkLabel(art) {
-            const hasEn = /\([^)]*[A-Za-z][^)]*\)/.test(art.artist);
-            if (hasEn) return `${displayPart(art.artist)}, ${displayPart(art.title)}`;
-            return `${basePart(art.artist)}, ${basePart(art.title)}`;
-        }
-
         // Initialize Gallery Render
         function renderArtworks(filter = 'all') {
             const grid = document.getElementById('artworkGrid');
@@ -1053,7 +1020,7 @@
                     </div>
                     <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
                         <div>
-                            <span class="text-xs text-artgold font-semibold uppercase tracking-widest mb-1 block">${artistWorkLabel(art)}</span>
+                            <span class="text-xs text-artgold font-semibold uppercase tracking-widest mb-1 block">${art.artist}</span>
                             <h3 class="serif-font text-2xl font-bold text-white mb-3">${art.title}</h3>
                             <div class="bg-[#101217] p-4 rounded-xl border border-gray-800/80 mb-4">
                                 <div class="flex items-center space-x-2 text-artgold text-sm font-semibold mb-1">
