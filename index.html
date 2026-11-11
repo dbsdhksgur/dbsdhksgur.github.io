@@ -284,6 +284,7 @@
             <button onclick="filterArtworks('impressionism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">인상주의</button>
             <button onclick="filterArtworks('expressionism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">표현주의 & 모더니즘</button>
             <button onclick="filterArtworks('surrealism')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">초현실주의 & 팝아트</button>
+            <button onclick="filterArtworks('korean')" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-artcard text-gray-300 hover:bg-gray-800 border border-gray-800">한국 미술</button>
         </div>
 
         <!-- Artwork Grid -->
@@ -309,6 +310,14 @@
                 <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
                     <h3 class="serif-font text-2xl font-bold text-white mb-2">클로드 모네 — 수련 연못 (1919)</h3>
                     <p class="text-gray-300">페어링: 프렌치 화이트 와인(상세르 / 소비뇽 블랑). 수련 잎사귀를 닮은 싱그러운 산미와 미네랄리티.</p>
+                </article>
+                <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                    <h3 class="serif-font text-2xl font-bold text-white mb-2">겸재 정선 — 인왕제색도 (1751)</h3>
+                    <p class="text-gray-300">페어링: 안동소주(전통 증류식 소주). 비 갠 인왕산의 묵직한 기운을 닮은 맑고 깊은 곡물의 풍미.</p>
+                </article>
+                <article class="bg-artcard rounded-2xl border border-gray-800 p-6">
+                    <h3 class="serif-font text-2xl font-bold text-white mb-2">수화 김환기 — 점화 연작 (1970년대)</h3>
+                    <p class="text-gray-300">페어링: 오미자 스파클링 칵테일. 무수한 점이 번지듯 다섯 가지 맛이 탄산 속에 퍼지는 한국적 칵테일.</p>
                 </article>
             </div>
         </noscript>
@@ -835,6 +844,42 @@
                     finish: "청초한 연못을 거니는 듯한 산뜻함"
                 },
                 curatorNote: "빛의 변화에 따라 수련 연못의 색감이 바뀌듯, 화이트 와인의 온도에 따라 다채롭게 피어나는 향과 산미가 모네의 인상주의적 시선을 그대로 닮아 있습니다."
+            },
+            {
+                id: 5,
+                category: "korean",
+                artist: "겸재 정선 (謙齋 鄭敾)",
+                title: "인왕제색도 (仁王霽色圖)",
+                year: "1751",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Inwangjesaekdo.jpg?width=800",
+                artistBio: "조선 후기를 대표하는 화가(1676-1759)로, 중국 화풍을 그대로 따르던 관념 산수에서 벗어나 우리 산천을 직접 보고 그린 '진경산수화(眞景山水畵)'를 개척했습니다. 「인왕제색도」는 비가 갠 직후의 인왕산을 짙은 먹으로 웅장하게 담아낸 그의 만년 걸작으로, 국보로 지정되어 있습니다. 바위의 질감을 과감한 적묵법으로 표현한 힘찬 필치가 돋보입니다.",
+                spirit: "안동소주 (전통 증류식 소주)",
+                spiritDesc: "비에 젖은 인왕산 바위의 묵직한 기운처럼, 맑고 깊은 곡물의 향과 높은 도수의 단단한 풍미를 지닌 전통 증류주.",
+                spiritStory: "안동소주는 쌀을 발효한 뒤 소줏고리로 증류해 만든 전통 증류식 소주로, 도수가 40도 안팎에 이릅니다. 고려 시대 몽골을 통해 전해진 증류 기술이 안동 지역에서 명주로 발전했으며, 무형문화재로 지정될 만큼 그 제법이 귀하게 이어져 왔습니다. 희석식 소주와 달리 곡물 본연의 은은한 단향과 깔끔하면서도 묵직한 목넘김이 특징입니다.",
+                tastingNotes: {
+                    aroma: "맑은 곡물 향, 은은한 누룩, 깨끗한 알코올",
+                    taste: "단단하고 깊은 곡물의 단맛, 묵직한 바디",
+                    finish: "맑게 떨어지는 긴 여운"
+                },
+                curatorNote: "관념을 벗고 우리 산천을 직접 담아낸 진경산수처럼, 외래의 희석주가 아닌 우리 땅의 곡물로 정직하게 빚어 증류한 안동소주는 정선의 묵직한 먹빛과 깊은 울림에서 공명합니다."
+            },
+            {
+                id: 6,
+                category: "korean",
+                artist: "수화 김환기 (樹話 金煥基)",
+                title: "점화 연작 (點畵, Dot Paintings)",
+                year: "1970년대",
+                img: "https://placehold.co/600x800/161920/d4af37?text=Kim%20Whanki%0A(c)%20저작권%20보호작",
+                artistBio: "한국 추상미술의 선구자(1913-1974). 한국적 서정을 서양 추상의 조형 언어로 풀어낸 작가로, 뉴욕 시절 무수한 점을 찍어 화면을 가득 채운 '점화' 연작을 완성했습니다. 밤하늘의 별처럼 번지는 푸른 점들은 고향과 그리운 이들을 향한 마음을 담았다고 전해지며, 한국 근현대 미술 경매 최고가를 기록하는 등 그 가치를 인정받고 있습니다.",
+                spirit: "오미자 스파클링 칵테일",
+                spiritDesc: "무수한 푸른 점이 번지는 화면처럼, 오미자의 다섯 가지 맛이 탄산 속에서 영롱하게 퍼지는 한국적 시그니처 칵테일.",
+                spiritStory: "오미자(五味子)는 단맛·신맛·쓴맛·짠맛·매운맛의 다섯 가지 맛을 지녀 그 이름이 붙은 한국 전통 열매입니다. 붉게 우러난 오미자청에 스파클링 워터와 소주 또는 진을 더하면, 선명한 붉은빛과 복합적인 산미가 살아있는 칵테일이 됩니다. 한 모금마다 다른 맛의 결이 번져 나가는 경험이 김환기의 점화가 주는 리듬감과 닮아 있습니다.",
+                tastingNotes: {
+                    aroma: "붉은 베리, 은은한 한약재, 상큼한 탄산",
+                    taste: "새콤달콤 다층적인 오미자의 맛, 청량한 기포",
+                    finish: "깔끔하게 번지는 산뜻한 여운"
+                },
+                curatorNote: "화면 가득 번지는 김환기의 점들이 저마다의 울림으로 하나의 서정을 이루듯, 오미자의 다섯 맛이 한 잔 안에서 교차하며 한국적 정서의 공감각을 완성합니다."
             }
         ];
 
