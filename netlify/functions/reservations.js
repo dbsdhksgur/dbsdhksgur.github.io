@@ -23,21 +23,26 @@ function json(data, status) {
 function validateReservation(body) {
   const name = String(body.name ?? "").trim();
   const phone = String(body.phone ?? "").trim();
+  const email = String(body.email ?? "").trim();
   const session = String(body.session ?? "").trim();
   const partySize = Number.parseInt(body.party_size, 10);
 
-  if (!name || !phone || !session) {
-    return { error: "성함, 연락처, 세션은 필수입니다." };
+  if (!name || !phone || !email || !session) {
+    return { error: "성함, 연락처, 이메일, 세션은 필수입니다." };
   }
-  if (name.length > 50 || phone.length > 30 || session.length > 120) {
+  if (name.length > 50 || phone.length > 30 || email.length > 120 || session.length > 120) {
     return { error: "입력값이 너무 깁니다." };
+  }
+  // 간단한 이메일 형식 검사
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "이메일 형식이 올바르지 않습니다." };
   }
   const safePartySize =
     Number.isFinite(partySize) && partySize >= 1 && partySize <= 10
       ? partySize
       : 1;
 
-  return { value: { name, phone, session, party_size: safePartySize } };
+  return { value: { name, phone, email, session, party_size: safePartySize } };
 }
 
 // 모의 문자 발송 + 예약 행에 발송 결과 기록.
@@ -99,7 +104,7 @@ export default async (req) => {
     const { data: reservation, error } = await supabase
       .from("reservations")
       .insert(value)
-      .select("id, name, phone, session, party_size, created_at")
+      .select("id, name, phone, email, session, party_size, created_at")
       .single();
 
     if (error) return json({ error: "예약 저장 중 오류가 발생했습니다." }, 500);
@@ -112,6 +117,7 @@ export default async (req) => {
         reservation: {
           id: reservation.id,
           name: reservation.name,
+          email: reservation.email,
           session: reservation.session,
           party_size: reservation.party_size,
           created_at: reservation.created_at,
@@ -134,7 +140,7 @@ export default async (req) => {
       .from("reservations")
       .update(value)
       .eq("id", id)
-      .select("id, name, phone, session, party_size, created_at")
+      .select("id, name, phone, email, session, party_size, created_at")
       .single();
 
     if (error || !reservation) {
@@ -151,6 +157,7 @@ export default async (req) => {
         reservation: {
           id: reservation.id,
           name: reservation.name,
+          email: reservation.email,
           session: reservation.session,
           party_size: reservation.party_size,
           created_at: reservation.created_at,

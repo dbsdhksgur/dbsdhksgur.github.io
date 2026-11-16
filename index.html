@@ -728,8 +728,12 @@
                     <input name="name" type="text" required maxlength="50" placeholder="홍길동" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-300 mb-1">연락처</label>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">연락처 <span class="text-gray-500">(본인 확인용)</span></label>
                     <input name="phone" type="tel" required maxlength="30" placeholder="010-0000-0000" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">이메일 <span class="text-gray-500">(예약 안내 수신용)</span></label>
+                    <input name="email" type="email" required maxlength="120" placeholder="example@email.com" class="w-full bg-[#101217] border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-artgold">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-300 mb-1">선택 세션</label>
@@ -1252,6 +1256,7 @@
             const payload = {
                 name: form.name.value,
                 phone: phone,
+                email: form.email.value,
                 session: form.session.value,
                 party_size: form.party_size.value,
             };
@@ -1299,6 +1304,7 @@
                 id: r.id || null,
                 editing: false,
                 phone: phone,
+                email: r.email || '',
                 name: r.name || '',
                 session: r.session || '',
                 party_size: r.party_size || 1,
@@ -1348,6 +1354,7 @@
 
             form.name.value = currentReservation.name || '';
             form.phone.value = currentReservation.phone || '';
+            form.email.value = currentReservation.email || '';
             form.session.value = currentReservation.session || '';
             form.party_size.value = currentReservation.party_size || 1;
 
